@@ -135,7 +135,7 @@ def main():
 
     with col1:
         # 로고 이미지 삽입 (로컬 이미지 파일 사용)
-        logo_path = "logo2.png"  # 로고 이미지 파일 경로
+        logo_path = "logo4.png"  # 로고 이미지 파일 경로
         if os.path.exists(logo_path):
             st.image(logo_path, width=100)
         else:
