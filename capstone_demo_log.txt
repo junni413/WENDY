@@ -1,0 +1,22 @@
+<논문/보고서 사용 파일>
+grid_data_with_frequent_probability_weighted_240925.csv
+>> personal_model_dataset_weighted_paper.csv 로 이름 변경
+
+location_probability_frequent_model_weighted_without_lat,lon_240928.pkl
+>> personal_model_paper.pkl 로 이름 변경
+
+grid_data_with_probability_base_RFmodel_weighted_240928.csv
+>> base_model_datset_weighted_paper.csv 로 이름 변경
+
+location_probability_base_model_without_lonlat_240928.pkl
+>> base_model_papaer.pkl 로 이름 변경
+
+<demo 좌표>------------------------------------
+37.627946
+127.073317
+
+37.624259
+127.080534
+
+37.623036
+127.075029
