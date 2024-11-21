@@ -120,14 +120,16 @@ def main():
     last_lon = st.sidebar.number_input("경도 (Longitude)", format="%.6f", value=0.0)
     min_distance = st.sidebar.number_input("추천 지점 간 최소 거리 (미터)", min_value=0, value=200, step=50)
     circle_radius = st.sidebar.selectbox("추천 지점 주변 원의 반경 (미터)", options=[0, 100, 150, 200], index=1)
-    map_tiles = st.sidebar.selectbox("지도 배경 선택", (
-        "OpenStreetMap",
-        "Stamen Terrain",
-        "Stamen Toner",
-        "Stamen Watercolor",
-        "CartoDB positron",
-        "CartoDB dark_matter"
-    ))
+    # 지도 배경 선택 부분 제거
+    # map_tiles = st.sidebar.selectbox("지도 배경 선택", (
+    #     "OpenStreetMap",
+    #     "Stamen Terrain",
+    #     "Stamen Toner",
+    #     "Stamen Watercolor",
+    #     "CartoDB positron",
+    #     "CartoDB dark_matter"
+    # ))
+    map_tiles = "OpenStreetMap"  # 기본 지도 타일 설정
     num_recommendations = st.sidebar.number_input("추천 지점 수", min_value=1, value=3, step=1)
 
     # 제목과 로고를 가로로 배치 using columns
@@ -158,7 +160,10 @@ def main():
     if st.sidebar.button("예측 실행"):
         # 모델 및 데이터 로드
         try:
-            model = joblib.load(model_path)
+            # 상대 경로로 수정
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            model_path_full = os.path.join(current_dir, model_path)
+            model = joblib.load(model_path_full)
         except FileNotFoundError:
             st.error(f"모델 파일을 찾을 수 없습니다: '{model_path}'")
             return
@@ -167,7 +172,8 @@ def main():
             return
 
         try:
-            df = pd.read_csv(data_path)
+            data_path_full = os.path.join(current_dir, data_path)
+            df = pd.read_csv(data_path_full)
         except FileNotFoundError:
             st.error(f"데이터 파일을 찾을 수 없습니다: '{data_path}'")
             return
@@ -242,7 +248,7 @@ def main():
                 unsafe_allow_html=True
             )
 
-        # 지도 생성
+        # 지도 생성 (지도 배경 고정)
         m = folium.Map(location=[last_lat, last_lon], zoom_start=13, tiles=map_tiles)
 
         # 마지막 위치 마커 아이콘 설정
@@ -295,7 +301,7 @@ def main():
                 folium.Circle(
                     location=[row['Latitude'], row['Longitude']],
                     radius=circle_radius,
-                    color='blue',  # 테두리 색상 (무시됨)
+                    color='blue',  # 테두리 색상
                     fill=True,
                     fill_color='blue',  # 채우기 색상
                     fill_opacity=0.2,  # 채우기 투명도
